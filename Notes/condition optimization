@@ -1,0 +1,46 @@
+1. if(0)
+假设有顺序语句statementA，statementB，statementC，statementD
+一定有if(0){
+  statementA;
+  statementB;
+  statementC;
+  statementD;
+}
+True
+
+2. if-else 和 switch-case 之间的语法替换
+
+3. if-else 条件的拆开
+a: !非
+  if(!A){
+    statement;
+  }
+  
+  //optimization
+  if(A){}
+  else {statement}
+  
+b: &&与
+  if(A && B){
+    statement;
+  }
+  
+  //optimization
+  if(A){
+    if(B){
+      statement;
+    }
+  }
+  
+c: || 或
+  if(A || B){
+    statement;
+  }
+  
+  //optimization
+  if(A){
+    statement;
+  }
+  else if(B){
+    
+  }

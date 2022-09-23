@@ -1,0 +1,83 @@
+初始teatcase：只关心程序能够运行，不关心具体执行结果
+
+1.循环不变量（while/for）
+所有testcase：添加与代码无关的不变量 
+
+循环不变量是不是没有语法错误的代码都可以？多行？单行？比较独立的代码
+专门的循环不变量介绍，应该有专门的分类，对每一种分类都去做变型，例如：identify有关的or无关的
+
+2.while to if-do-while （while）
+1) while：if-do-while
+2)do-while：加 if()condition是do-while的条件
+
+3. loop fusion 循环合并 （for/while）
+所有testcase：添加循环，要求保持表达式一致，循环体加入一些语句
+
+Example：
+//sourceCode
+int Sum( int num[], int n ){
+	int sum = 0;
+	for( int i = 0; i < n; i++ ){
+		sum = sum + num[i];
+	}
+	
+	return sum;
+}
+
+//add loop
+int Sum( int num[], int n ){
+	int sum = 0;
+	for( int i = 0; i < n; i++ ){
+		sum = sum + num[i];
+	}
+	
+	int t = 0;
+	for( int i = 0; i < n; i++ ){
+		t++;
+	}
+	return sum;
+}
+
+//新的循环体内的语句不是循环不变量，怎么样可以实现生成多样化？加什么样子的？
+多行单行？
+查找真正实际代码 新增语句是否需要和之前的循环体有一定关系？
+
+4.归纳变量 （for/ while手动筛选）
+所有testcase：添加归纳变量（和循环变量有一些线性关系）
+
+Example：添加变量 j
+for (i = 0; i < 10; ++i) {
+    j = 17 * i;
+}
+
+加一行：（j=）随机加减乘除、随机数字
+加多行
+找一些更容易出问题的形式添加
+
+7.unrolling 循环展开（for）
+所有testcase：满足展开次数是原循环次数的因数
+
+8.unswitching（for/while）
+1）循环嵌套if（187）：改变if中的condition（随机生成布尔类型代码），再拆成两个循环体
+//Example
+int[] a={};
+for(int i=0; i<10; i++){
+	a[i]=i+1;
+	if(a[i]%2==0) 
+		a[i]=0;
+}
+
+//updated
+int[] a={};
+int flag=random()%2==0?1:0;//或者别的复制方法 random会存在每次变换都会有不同的结果
+for(int i=0; i<10; i++){
+	a[i]=i+1;
+	if(flag==1) 
+		a[i]=0;
+}
+2）循环不嵌套if：添加 if 语句
+
+六种变换之后的初始testcase分别被存放在6个文件夹下，之后每一个文件夹通过优化生成相对应的变体（命名为原文件夹-i）。
+最后将所有文件添加goto error语句，每一个文件两种变化方式（循环体外/循环体内），最后变成12+12个文件夹。
+
+//Goto ERROR放到最后所有文件一起做
