@@ -213,5 +213,44 @@ int main()
 受别名影响的另一个优化是代码重新排序。如果 `x` 没有别名 `*y`，那么使用或改变 x 值的代码都可以移到 `*y`之前。
 
 ## 5&emsp;[Induction variable（归纳变量）](https://github.com/bfsyrgz/ModelChecking_CompilerOptimization/blob/main/Notes/Loop%20Optimazations.md#4induction-variables%E5%BD%92%E7%BA%B3%E5%8F%98%E9%87%8F)
+<img width="929" alt="Other strength reduction operations" src="https://user-images.githubusercontent.com/71619681/208819069-bc30ecbe-49d0-4d93-87dd-c5794334ba52.png">
 
+### Example：指数eliminate乘除 ends加减
+
+```
+// our modified pow function that raises a to the power of b
+// without using multiplication or division 
+// return a^n
+function modPow(a, n) {
+  
+  // convert a to positive number
+  var answer = Math.abs(a);
+  
+  // store exponent for later use
+  var exp = n;
+  
+  // loop n times
+  while (n > 1) {
+    
+    // add the previous added number n times
+    // e.g. 4^3 = 4 * 4 * 4
+    //      4*4 = 4 + 4 + 4 + 4 = 16
+    //     16*4 = 16 + 16 + 16 + 16 = 64
+    var added = 0;
+    for (var i = 0; i < Math.abs(a); i++) { added += answer; }
+    answer = added;
+    n--;
+    
+  }
+  
+  // if a was negative determine if the answer will be
+  // positive or negative based on the original exponent
+  // e.g. pow(-4, 3) = (-4)^3 = -64
+  return (a < 0 && exp % 2 === 1) ? -answer : answer;
+  
+}
+
+modPow(2, 10); 
+
+```
 
